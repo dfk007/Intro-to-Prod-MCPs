@@ -1,0 +1,53 @@
+{
+  "models": [
+    {
+      "title": "Gemma 3 4B Local",
+      "provider": "ollama",
+      "model": "gemma3:4b",
+      "apiBase": "http://localhost:11434"
+    }
+  ],
+  "mcpServers": {
+    "filesystem": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-filesystem",
+        "/Users/mac/Miscellaneous/MCPs",
+        "/Users/mac/Documents"
+      ],
+      "env": {
+        "NODE_ENV": "production"
+      }
+    }
+  },
+  "tabAutocompleteModel": {
+    "title": "Gemma 3 Autocomplete",
+    "provider": "ollama",
+    "model": "gemma3:4b",
+    "apiBase": "http://localhost:11434"
+  },
+  "embeddingsProvider": {
+    "provider": "ollama",
+    "model": "nomic-embed-text",
+    "apiBase": "http://localhost:11434"
+  },
+  "slashCommands": [
+    {
+      "name": "edit",
+      "description": "Edit selected code"
+    },
+    {
+      "name": "comment",
+      "description": "Write comments for selected code"
+    },
+    {
+      "name": "share",
+      "description": "Export conversation to markdown"
+    },
+    {
+      "name": "cmd",
+      "description": "Generate shell commands"
+    }
+  ]
+}

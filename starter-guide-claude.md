@@ -1,6 +1,6 @@
 # Production-Grade MCP Implementation: VSCode + Local Filesystem + Ollama
 
-This guide will help you build a context-aware coding assistant using MCP to connect VSCode to your local filesystem with Ollama's Gemma 3:1b model.
+This guide will help you build a context-aware coding assistant using MCP to connect VSCode to your local filesystem with Ollama's Gemma 3:4b model.
 
 ## Architecture Overview
 
@@ -13,7 +13,7 @@ MCP Server (Filesystem)
     ↓
 Local Codebase + Git Repository
     ↓
-Ollama (Gemma 3:1b LLM)
+Ollama (Gemma 3:4b LLM)
 ```
 
 ## Prerequisites Checklist
@@ -41,8 +41,8 @@ brew install ollama
 ### 1.2 Pull Gemma 3:1b Model
 
 ```bash
-ollama pull gemma:2b
-# Note: gemma3:1b doesn't exist; use gemma:2b or gemma2:2b instead
+ollama pull gemma3:4b
+# Using gemma3:4b as the primary model
 # For better code performance, consider gemma2:9b or codellama:7b
 
 ollama list  # Verify installation
@@ -51,7 +51,7 @@ ollama list  # Verify installation
 ### 1.3 Test Ollama
 
 ```bash
-ollama run gemma:2b "Write a hello world in Python"
+ollama run gemma3:4b "Write a hello world in Python"
 ```
 
 ### 1.4 Start Ollama Server (runs in background)
@@ -106,16 +106,16 @@ Replace with this configuration:
 {
   "models": [
     {
-      "title": "Gemma 2B Local",
+      "title": "Gemma 3 4B Local",
       "provider": "ollama",
-      "model": "gemma:2b",
+      "model": "gemma3:4b",
       "apiBase": "http://localhost:11434"
     }
   ],
   "tabAutocompleteModel": {
-    "title": "Gemma Autocomplete",
+    "title": "Gemma 3 Autocomplete",
     "provider": "ollama",
-    "model": "gemma:2b",
+    "model": "gemma3:4b",
     "apiBase": "http://localhost:11434"
   },
   "embeddingsProvider": {
@@ -172,9 +172,9 @@ Edit** **`~/.continue/config.json` and add the** **`mcpServers` section:
 {
   "models": [
     {
-      "title": "Gemma 2B Local",
+      "title": "Gemma 3 4B Local",
       "provider": "ollama",
-      "model": "gemma:2b",
+      "model": "gemma3:4b",
       "apiBase": "http://localhost:11434"
     }
   ],
@@ -202,9 +202,9 @@ Edit** **`~/.continue/config.json` and add the** **`mcpServers` section:
     }
   },
   "tabAutocompleteModel": {
-    "title": "Gemma Autocomplete",
+    "title": "Gemma 3 Autocomplete",
     "provider": "ollama",
-    "model": "gemma:2b",
+    "model": "gemma3:4b",
     "apiBase": "http://localhost:11434"
   },
   "embeddingsProvider": {
@@ -547,7 +547,7 @@ npx -y @modelcontextprotocol/server-filesystem ~/projects/mcp-test
     {
       "title": "Production Gemma",
       "provider": "ollama",
-      "model": "gemma2:9b",
+      "model": "gemma3:4b",
       "apiBase": "http://localhost:11434"
     }
   ],
@@ -664,7 +664,7 @@ curl http://localhost:11434/api/tags
 
  **Solutions** :
 
-* Use smaller models (`gemma:2b` instead of** **`gemma2:9b`)
+* Use smaller models (`gemma3:4b` instead of larger variants)
 * Reduce context window in config
 * Limit filesystem access to specific directories
 * Use SSD for model storage
@@ -721,7 +721,7 @@ cat ~/projects/mcp-test/main.py
 You now have a production-grade MCP setup that:
 
 ✅ Connects VSCode to local filesystem via MCP
-✅ Uses Ollama (Gemma 2B) for AI-powered code assistance
+✅ Uses Ollama (Gemma 3:4b) for AI-powered code assistance
 ✅ Can read codebases, apply patches, and analyze code
 ✅ Works on macOS and Linux
 ✅ Follows security best practices
