@@ -34,43 +34,85 @@ This repository contains the configuration and test files needed to bootstrap th
 
 ---
 
-## 3. CLI Commands & Usage
+## 3. Step-by-Step Setup & Installation Guide
+
+Follow these steps exactly to set up your environment.
 
 ### **Prerequisites**
-Ensure Ollama is running and the model is pulled:
+1.  **Frameworks**: Node.js (v18+), Python (v3.10+), and VSCode installed.
+2.  **Ollama**: Install from [ollama.com](https://ollama.com).
+
+### **Step 1: Install & Prepare Ollama**
+Run these commands in your terminal to get the AI models ready:
+
 ```bash
+# 1. Start Ollama server (if not already running)
 ollama serve
+
+# 2. Pull the main intelligence model
 ollama pull gemma3:4b
-ollama pull nomic-embed-text  # For codebase embeddings/search
+
+# 3. Pull the embedding model (crucial for "codebase context" search)
+ollama pull nomic-embed-text
 ```
 
-### **Verification Steps**
+### **Step 2: Install VSCode Extension**
+1.  Open **VSCode**.
+2.  Press `Cmd + Shift + X` to open Extensions.
+3.  Search for **"Continue"**.
+4.  Install the extension: **"Continue - Codestral, Claude, and more"**.
 
-#### **1. Verify Ollama Connection**
-Check if the model responds via CLI before connecting VSCode:
-```bash
-ollama run gemma3:4b "Explain what MCP is in one sentence."
-```
+### **Step 3: Configure Continue with MCP**
+We need to tell Continue to use our local setup instead of the default cloud configuration.
 
-#### **2. Verify MCP Filesystem Server (Manual Test)**
-Confirm the MCP server can actually see your files:
-```bash
-npx -y @modelcontextprotocol/server-filesystem /Users/mac/Miscellaneous/MCPs
-```
-*Expected Output*: `MCP Filesystem Server running` (Press `Ctrl+C` to exit).
+1.  **Locate the Config File**:
+    The config file lives at `~/.continue/config.json`.
 
-#### **3. Verify VSCode Integration**
-1.  **Install Extension**: "Continue" from VSCode Marketplace.
-2.  **Apply Config**: Copy the project config to your home directory:
+2.  **Apply Our Configuration**:
+    Run this command in your terminal to overwrite the default config with our project config:
     ```bash
-    cp continue_config.json ~/.continue/config.json
+    cp /Users/mac/Miscellaneous/MCPs/continue_config.json ~/.continue/config.json
     ```
-3.  **Reload Window**: `Cmd + Shift + P` -> `Developer: Reload Window`.
-4.  **Test**: Open the Continue sidebar and ask: *"Look at legacy.py and explain what it does."*
+
+### **Step 4: Install MCP Filesystem Server**
+The "glue" that lets the AI read your files is a Node.js package.
+
+```bash
+# Install the MCP filesystem server globally
+npm install -g @modelcontextprotocol/server-filesystem
+```
 
 ---
 
-## 4. Current Capabilities
+## 4. Verification & Testing
+
+Verify that everything is working correctly.
+
+### **Verification 1: Check Ollama Response (CLI)**
+Ensure the model is awake and responding.
+```bash
+ollama run gemma3:4b "Are you ready to code?"
+```
+
+### **Verification 2: Check MCP Server Access (Manual)**
+Verify the MCP server can start and sees your directory.
+```bash
+# Run this to confirm it starts without error
+npx -y @modelcontextprotocol/server-filesystem /Users/mac/Miscellaneous/MCPs
+```
+*   *Success*: Output shows `MCP Filesystem Server running`.
+*   *Action*: Press `Ctrl + C` to stop it.
+
+### **Verification 3: End-to-End VSCode Test**
+1.  **Restart VSCode**: Press `Cmd + Shift + P` -> Select **"Developer: Reload Window"**.
+2.  **Open Continue**: Click the Continue logo in the sidebar (or `Cmd + L`).
+3.  **Ask a Question**: Type:
+    > "Look at legacy.py. What does the process_data function do?"
+4.  **Confirm**: The AI should explain the code, proving it read the file via MCP.
+
+---
+
+## 5. Current Capabilities
 
 1.  **Context-Aware Chat**: The AI can "see" your open files and answer questions about them.
 2.  **Codebase Indexing**: Using `nomic-embed-text`, it can search across your project to find relevant functions or classes.
@@ -80,7 +122,7 @@ npx -y @modelcontextprotocol/server-filesystem /Users/mac/Miscellaneous/MCPs
 
 ---
 
-## 5. Enterprise Scaling & Extensibility (Production Grade)
+## 6. Enterprise Scaling & Extensibility (Production Grade)
 
 To take this from a local dev tool to an **Enterprise AI Platform**, consider the following evolution:
 
