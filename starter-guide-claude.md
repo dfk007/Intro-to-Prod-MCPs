@@ -54,7 +54,7 @@ ollama list  # Verify installation
 ollama run gemma3:4b "Write a hello world in Python"
 ```
 
-### 1.4 Start Ollama Server (runs in background)
+ ### 1.4 Start Ollama Server (runs in background)
 
 ```bash
 ollama serve
